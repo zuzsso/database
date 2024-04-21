@@ -16,18 +16,20 @@
     },
     "autoload": {
         "psr-4": {
-            "YourProject\\": "src/"
+            "Database\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "YourProject\\Tests\\": "tests/"
+            "Database\\Tests\\": "tests/"
         }
     },
     "require": {
+        "doctrine/dbal": "^3.3",
         "php-di/php-di": "^6.2",
         "ext-json": "*",
-        "zuzsso/di-manifest": "v1.0.0"
+        "zuzsso/di-manifest": "^1.0",
+        "zuzsso/typed-collection": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.2.3",
@@ -38,6 +40,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/zuzsso/di-manifest"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/zuzsso/typed-collection"
         }
     ]
 }
