@@ -1,11 +1,11 @@
 {
-    "name": "your/reponame",
+    "name": "zuzsso/database",
     "description": "Common shareable functionality",
     "type": "library",
     "authors": [
         {
-            "name": "you",
-            "email": "you@yourserver.com"
+            "name": "Nico Santamaria",
+            "email": "ndsans@gmail.com"
         }
     ],
     "minimum-stability": "stable",
