@@ -56,6 +56,9 @@ abstract class AbstractSqlNativeQuery
     {
         $extractedParameters = $this->extractParameterNamesFromRawQuery->extract($this->rawSql);
 
+        // The same parameter can be repeated in the query
+        $extractedParameters = array_unique($extractedParameters);
+
         $extractedParametersCount = count($extractedParameters);
 
         $collectionCount = 0;
