@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database;
 
+use Database\Service\NativeSelectQueryCreator;
+use Database\UseCase\CreateNativeSelectQuery;
 use DiManifest\AbstractDependencyInjection;
 use Database\Service\DmlNativeQueryRunner;
 use Database\Service\NativeQueryDbReader;
@@ -23,6 +25,7 @@ class DependencyInjectionManifest extends AbstractDependencyInjection
     public static function getDependencies(): array
     {
         return [
+            CreateNativeSelectQuery::class => autowire(NativeSelectQueryCreator::class),
             RunDmlNativeQuery::class => autowire(DmlNativeQueryRunner::class),
             ParametrizeWhereInPdo::class => autowire(WhereInPdoParametrizer::class),
             CheckPdoParameterNames::class => autowire(PdoParameterNamesChecker::class),
