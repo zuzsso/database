@@ -31,7 +31,7 @@ class NativeSelectQueryCreator implements CreateNativeSelectQuery
         $parameters = new NamedParameterCollection();
 
         foreach ($pdoParams as $key => $value) {
-            $parameters->add($this->checkPdoParameterNames, $key, $value);
+            $parameters->add($this->checkPdoParameterNames, $key, (string)$value);
         }
 
         return new NativeSelectSqlQuery(
