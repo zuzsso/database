@@ -24,10 +24,10 @@ class PdoParameterNameCheckerTest extends TestCase
             [" param1 ", false],
             [" :param1 ", false],
 
-            [":param", true],
-            [":param", true],
-            [":param123", true],
-            [":parAm123__", true]
+            ["-:param:+", true],
+            ["-:param:+", true],
+            ["-:param123:+", true],
+            ["-:parAm123__:+", true]
         ];
     }
 

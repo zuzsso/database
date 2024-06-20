@@ -10,7 +10,7 @@ class PdoParameterNamesChecker implements CheckPdoParameterNames
 {
     public function getPdoPlaceholderRegex(bool $anyPosition = true): string
     {
-        $base = ':\w+';
+        $base = '-:\w+:\+';
 
         if ($anyPosition) {
             return "/$base/";

@@ -23,8 +23,12 @@ class ParametrizedPdoArray
             throw new ParametrizedPdoArrayException('Empty parameter name');
         }
 
-        if (str_starts_with($sanitizedParameterName, ':')) {
-            throw new ParametrizedPdoArrayException('Parameter name cannot start with colon');
+        if (str_starts_with($sanitizedParameterName, '-:')) {
+            throw new ParametrizedPdoArrayException('Parameter name cannot start with -:');
+        }
+
+        if (str_starts_with($sanitizedParameterName, ':+')) {
+            throw new ParametrizedPdoArrayException('Parameter name cannot end with :+');
         }
 
         if (in_array($parameterName, $this->parameterNames, true)) {
@@ -51,7 +55,7 @@ class ParametrizedPdoArray
         }
 
         return array_map(static function (string $parameterName): string {
-            return ':' . $parameterName;
+            return '-:' . $parameterName . ':+';
         }, $this->parameterNames);
     }
 

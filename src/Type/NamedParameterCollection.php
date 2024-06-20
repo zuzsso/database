@@ -21,7 +21,7 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     ): void {
         if (!$checkPdoParameterNames->checkStringRepresentsParameterName($parameterName)) {
             throw new IncorrectQueryParametrizationException(
-                "Parameter name '$parameterName' not in expected format. Does it start with colon?"
+                "Parameter name '$parameterName' not in expected format, as in '-:paramName:+'"
             );
         }
 
