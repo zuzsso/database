@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Type;
 
+use Database\Exception\NamedParameterCollectionUnmanagedException;
 use Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Database\Exception\UnconstructibleRawSqlQueryException;
 use Database\UseCase\ExtractParameterNamesFromRawQuery;
@@ -39,9 +40,30 @@ abstract class AbstractSqlNativeQuery
         }
     }
 
+    /**
+     * @throws NamedParameterCollectionUnmanagedException
+     */
     final public function getRawSql(): string
     {
-        return $this->rawSql;
+        if ($this->queryParams === null) {
+            return $this->rawSql;
+        }
+
+        // The placeholders we use for parameters are not standard (start with '-:' and end with ':+'), so we
+        // convert them to standard PDO parameter syntax, starting with ':'
+
+        $auxQuery = $this->rawSql;
+
+        foreach ($this->queryParams as $paramName => $paraValue) {
+            $auxParam = $this
+                ->queryParams
+                ->transformToPdoSyntaxProxy($this->extractParameterNamesFromRawQuery, $paramName);
+
+            $auxQuery = str_replace($paramName, $auxParam, $auxQuery);
+        }
+
+
+        return $auxQuery;
     }
 
     final public function getParams(): ?NamedParameterCollection

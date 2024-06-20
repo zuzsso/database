@@ -8,21 +8,21 @@ use Database\Exception\IncorrectQueryParametrizationException;
 use PHPUnit\Framework\TestCase;
 use Database\Exception\UnconstructibleRawSqlQueryException;
 use Database\Service\ParameterNamesFromRawQueryExtractor;
-use Database\Service\PdoParameterNamesChecker;
+use Database\Service\CustomQueryParameterNamesChecker;
 use Database\Type\NamedParameterCollection;
 use Database\Type\NativeSelectSqlQuery;
-use Database\UseCase\CheckPdoParameterNames;
+use Database\UseCase\CheckCustomQueryParameterNames;
 use Database\UseCase\ExtractParameterNamesFromRawQuery;
 
 class RawSelectSqlQueryTest extends TestCase
 {
     private ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery;
-    private CheckPdoParameterNames $checkPdoParameterNames;
+    private CheckCustomQueryParameterNames $checkPdoParameterNames;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->checkPdoParameterNames = new PdoParameterNamesChecker();
+        $this->checkPdoParameterNames = new CustomQueryParameterNamesChecker();
         $this->extractParameterNamesFromRawQuery = new ParameterNamesFromRawQueryExtractor(
             $this->checkPdoParameterNames
         );

@@ -6,18 +6,18 @@ namespace Database\Service;
 
 use Database\Type\NamedParameterCollection;
 use Database\Type\NativeDmlSqlQuery;
-use Database\UseCase\CheckPdoParameterNames;
+use Database\UseCase\CheckCustomQueryParameterNames;
 use Database\UseCase\CreateNativeDmlQuery;
 use Database\UseCase\ExtractParameterNamesFromRawQuery;
 
 class NativeDmlQueryCreator implements CreateNativeDmlQuery
 {
     private ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery;
-    private CheckPdoParameterNames $checkPdoParameterNames;
+    private CheckCustomQueryParameterNames $checkPdoParameterNames;
 
     public function __construct(
         ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery,
-        CheckPdoParameterNames $checkPdoParameterNames
+        CheckCustomQueryParameterNames $checkPdoParameterNames
     ) {
         $this->extractParameterNamesFromRawQuery = $extractParameterNamesFromRawQuery;
         $this->checkPdoParameterNames = $checkPdoParameterNames;

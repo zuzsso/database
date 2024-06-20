@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Database\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
-use Database\Service\PdoParameterNamesChecker;
+use Database\Service\CustomQueryParameterNamesChecker;
 
 class PdoParameterNameCheckerTest extends TestCase
 {
-    private PdoParameterNamesChecker $sut;
+    private CustomQueryParameterNamesChecker $sut;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new PdoParameterNamesChecker();
+        $this->sut = new CustomQueryParameterNamesChecker();
     }
 
     public function correctlyIdentifiesPdoParameterNamesDataProvider(): array

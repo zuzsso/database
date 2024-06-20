@@ -6,14 +6,14 @@ namespace Database\Service;
 
 use Database\Exception\NativeQueryDbReaderUnmanagedException;
 use Database\Type\ParametrizedPdoArray;
-use Database\UseCase\CheckPdoParameterNames;
+use Database\UseCase\CheckCustomQueryParameterNames;
 use Database\UseCase\ParametrizeWhereInPdo;
 
 class WhereInPdoParametrizer implements ParametrizeWhereInPdo
 {
-    private CheckPdoParameterNames $checkPdoParameterNames;
+    private CheckCustomQueryParameterNames $checkPdoParameterNames;
 
-    public function __construct(CheckPdoParameterNames $checkPdoParameterNames)
+    public function __construct(CheckCustomQueryParameterNames $checkPdoParameterNames)
     {
         $this->checkPdoParameterNames = $checkPdoParameterNames;
     }

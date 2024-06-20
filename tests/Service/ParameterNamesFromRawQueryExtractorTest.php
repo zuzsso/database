@@ -6,7 +6,7 @@ namespace Database\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
 use Database\Service\ParameterNamesFromRawQueryExtractor;
-use Database\Service\PdoParameterNamesChecker;
+use Database\Service\CustomQueryParameterNamesChecker;
 
 class ParameterNamesFromRawQueryExtractorTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ParameterNamesFromRawQueryExtractorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->sut = new ParameterNamesFromRawQueryExtractor(new PdoParameterNamesChecker());
+        $this->sut = new ParameterNamesFromRawQueryExtractor(new CustomQueryParameterNamesChecker());
     }
 
     public function correctlyExtractParametersFromStringDataProvider(): array

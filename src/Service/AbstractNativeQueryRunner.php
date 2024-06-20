@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Service;
 
-use Doctrine\DBAL\Exception;
+use Database\Exception\AbstractNativeQueryRunnerUnmanagedException;
 use Doctrine\DBAL\Statement;
 use Database\Type\NamedParameterCollection;
 use Database\UseCase\ExtractParameterNamesFromRawQuery;
@@ -19,13 +19,21 @@ abstract class AbstractNativeQueryRunner
     }
 
     /**
-     * @throws Exception
+     * @throws AbstractNativeQueryRunnerUnmanagedException
      */
     protected function bindParameters(Statement $stm, NamedParameterCollection $queryParameters): void
     {
-        foreach ($queryParameters as $parameterName => $parameterValue) {
-            // Parameter value as string by default
-            $stm->bindValue($parameterName, $parameterValue);
+        try {
+            foreach ($queryParameters as $parameterName => $parameterValue) {
+                // Parameter value as string by default
+                $standardSyntax =
+                    $this
+                        ->extractParameterNamesFromRawQuery
+                        ->convertToStandardPdoSyntaxProxy($parameterName);
+                $stm->bindValue($standardSyntax, $parameterValue);
+            }
+        } catch (\Throwable $t) {
+            throw new AbstractNativeQueryRunnerUnmanagedException($t->getMessage(), $t->getCode(), $t);
         }
     }
 }

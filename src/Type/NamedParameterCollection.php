@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Database\Type;
 
 use Database\Exception\IncorrectQueryParametrizationException;
+use Database\Exception\NamedParameterCollectionUnmanagedException;
+use Database\UseCase\ExtractParameterNamesFromRawQuery;
+use Throwable;
 use TypedCollection\AbstractStringAssociativeCollection;
 use TypedCollection\Exception\KeyAlreadyExistsException;
-use Database\UseCase\CheckPdoParameterNames;
+use Database\UseCase\CheckCustomQueryParameterNames;
 
 class NamedParameterCollection extends AbstractStringAssociativeCollection
 {
@@ -15,7 +18,7 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
      * @throws IncorrectQueryParametrizationException
      */
     public function add(
-        CheckPdoParameterNames $checkPdoParameterNames,
+        CheckCustomQueryParameterNames $checkPdoParameterNames,
         string $parameterName,
         string $parameterValue
     ): void {
@@ -37,6 +40,40 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
             throw new IncorrectQueryParametrizationException(
                 "Parameter name '$parameterName' is already in this collection"
             );
+        }
+    }
+
+    /**
+     * @throws NamedParameterCollectionUnmanagedException
+     */
+    public function transformToPdoSyntax(
+        CheckCustomQueryParameterNames $checkPdoParameterNames,
+        string $parameter
+    ): string {
+        try {
+            // Check if the parameter exists in this collection. If it doesn't, it will raise an exception
+            $this->getByStringKey($parameter);
+
+            return $checkPdoParameterNames->convertToStandardPdoSyntax($parameter);
+        } catch (Throwable $t) {
+            throw new NamedParameterCollectionUnmanagedException($t->getMessage(), $t->getCode(), $t);
+        }
+    }
+
+    /**
+     * @throws NamedParameterCollectionUnmanagedException
+     */
+    public function transformToPdoSyntaxProxy(
+        ExtractParameterNamesFromRawQuery $extractParameterNamesFromRawQuery,
+        string $parameter
+    ): string {
+        try {
+            // Check if the parameter exists in this collection. If it doesn't, it will raise an exception
+            $this->getByStringKey($parameter);
+
+            return $extractParameterNamesFromRawQuery->convertToStandardPdoSyntaxProxy($parameter);
+        } catch (Throwable $t) {
+            throw new NamedParameterCollectionUnmanagedException($t->getMessage(), $t->getCode(), $t);
         }
     }
 

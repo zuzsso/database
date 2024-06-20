@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Service;
 
-use Database\UseCase\CheckPdoParameterNames;
+use Database\UseCase\CheckCustomQueryParameterNames;
 use Database\UseCase\ExtractParameterNamesFromRawQuery;
 
 class ParameterNamesFromRawQueryExtractor implements ExtractParameterNamesFromRawQuery
 {
-    private CheckPdoParameterNames $checkPdoParameterNames;
+    private CheckCustomQueryParameterNames $checkPdoParameterNames;
 
-    public function __construct(CheckPdoParameterNames $checkPdoParameterNames)
+    public function __construct(CheckCustomQueryParameterNames $checkPdoParameterNames)
     {
         $this->checkPdoParameterNames = $checkPdoParameterNames;
     }
@@ -33,5 +33,13 @@ class ParameterNamesFromRawQueryExtractor implements ExtractParameterNamesFromRa
         }
 
         return ($result);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function convertToStandardPdoSyntaxProxy(string $parameterName): string
+    {
+        return $this->checkPdoParameterNames->convertToStandardPdoSyntax($parameterName);
     }
 }
