@@ -21,7 +21,8 @@ class NativeDmlSqlQuery extends AbstractSqlNativeQuery
             'delete',
             'create',
             'drop',
-            'alter'
+            'alter',
+            'insert'
         ];
 
         $aux = strtolower(trim($rawSql));
