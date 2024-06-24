@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Type;
 
 use Database\Exception\ParametrizedPdoArrayException;
+use Database\UseCase\CheckCustomQueryParameterNames;
 
 class ParametrizedWhereInArray
 {
@@ -15,21 +16,12 @@ class ParametrizedWhereInArray
      * @throws ParametrizedPdoArrayException
      * @noinspection PhpUnused
      */
-    public function addParameter(string $parameterName, string $parameterValue): void
-    {
-        $sanitizedParameterName = trim($parameterName);
-
-        if ($sanitizedParameterName === '') {
-            throw new ParametrizedPdoArrayException('Empty parameter name');
-        }
-
-        if (str_starts_with($sanitizedParameterName, '-:')) {
-            throw new ParametrizedPdoArrayException('Parameter name cannot start with -:');
-        }
-
-        if (str_starts_with($sanitizedParameterName, ':+')) {
-            throw new ParametrizedPdoArrayException('Parameter name cannot end with :+');
-        }
+    public function addParameter(
+        CheckCustomQueryParameterNames $checkCustomQueryParameterNames,
+        string $parameterName,
+        string $parameterValue
+    ): void {
+        $checkCustomQueryParameterNames->checkStringRepresentsParameterName($parameterName);
 
         if (in_array($parameterName, $this->parameterNames, true)) {
             throw new ParametrizedPdoArrayException("Duplicated parameter: $parameterName");
@@ -41,7 +33,7 @@ class ParametrizedWhereInArray
             throw new ParametrizedPdoArrayException('Parameter value is empty string');
         }
 
-        $this->parameterNames[] = $sanitizedParameterName;
+        $this->parameterNames[] = $parameterName;
         $this->parameterAssociation[$parameterName] = $parameterValue;
     }
 
