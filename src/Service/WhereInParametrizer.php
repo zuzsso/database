@@ -21,8 +21,11 @@ class WhereInParametrizer implements ParametrizeWhereIn
     /**
      * @inheritDoc
      */
-    public function parametrize(string $prefix, array $values): ParametrizedWhereInArray
-    {
+    public function parametrize(
+        CheckCustomQueryParameterNames $checkCustomQueryParameterNames,
+        string $prefix,
+        array $values
+    ): ParametrizedWhereInArray {
         if (!$this->checkPdoParameterNames->checkStringRepresentsParameterName($prefix)) {
             throw new IncorrectCustomParameterSyntaxException(
                 "Prefix '$prefix' doesn't seem to be a valid name for a PDO parameter"
@@ -40,7 +43,7 @@ class WhereInParametrizer implements ParametrizeWhereIn
 
             $thisParameterName = $this->checkPdoParameterNames->reinstateEndDelimiter($thisParameterName);
 
-            $result->addParameter($thisParameterName, (string)$v);
+            $result->addParameter($checkCustomQueryParameterNames, $thisParameterName, (string)$v);
 
             $counter++;
         }
