@@ -46,9 +46,7 @@ class ParametrizedWhereInArray
             throw new ParametrizedPdoArrayException('No parameters');
         }
 
-        return array_map(static function (string $parameterName): string {
-            return '-:' . $parameterName . ':+';
-        }, $this->parameterNames);
+        return $this->parameterNames;
     }
 
     /**
