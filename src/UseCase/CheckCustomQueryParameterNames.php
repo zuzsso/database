@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\UseCase;
 
-use Database\Exception\PdoParameternamesCheckerUnmanagedException;
+use Database\Exception\IncorrectCustomParameterSyntaxException;
 
 interface CheckCustomQueryParameterNames
 {
@@ -13,7 +13,17 @@ interface CheckCustomQueryParameterNames
     public function checkStringRepresentsParameterName(string $parameterName): bool;
 
     /**
-     * @throws PdoParameternamesCheckerUnmanagedException
+     * @throws IncorrectCustomParameterSyntaxException
      */
     public function convertToStandardPdoSyntax(string $parameterName): string;
+
+    /**
+     * @throws IncorrectCustomParameterSyntaxException
+     */
+    public function removeEndDelimiter(string $parameterName): string;
+
+    /**
+     * @throws IncorrectCustomParameterSyntaxException
+     */
+    public function reinstateEndDelimiter(string $parameterName): string;
 }

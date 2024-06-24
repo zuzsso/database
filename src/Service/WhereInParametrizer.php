@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Database\Service;
 
 use Database\Exception\NativeQueryDbReaderUnmanagedException;
-use Database\Type\ParametrizedPdoArray;
+use Database\Type\ParametrizedWhereInArray;
 use Database\UseCase\CheckCustomQueryParameterNames;
-use Database\UseCase\ParametrizeWhereInPdo;
+use Database\UseCase\ParametrizeWhereIn;
 
-class WhereInPdoParametrizer implements ParametrizeWhereInPdo
+class WhereInParametrizer implements ParametrizeWhereIn
 {
     private CheckCustomQueryParameterNames $checkPdoParameterNames;
 
@@ -21,7 +21,7 @@ class WhereInPdoParametrizer implements ParametrizeWhereInPdo
     /**
      * @inheritDoc
      */
-    public function parametrize(string $prefix, array $values): ParametrizedPdoArray
+    public function parametrize(string $prefix, array $values): ParametrizedWhereInArray
     {
         if (!$this->checkPdoParameterNames->checkStringRepresentsParameterName($prefix)) {
             throw new NativeQueryDbReaderUnmanagedException(
@@ -31,7 +31,7 @@ class WhereInPdoParametrizer implements ParametrizeWhereInPdo
 
         $counter = 0;
 
-        $result = new ParametrizedPdoArray();
+        $result = new ParametrizedWhereInArray();
 
         foreach ($values as $v) {
             $thisParameterName = "${prefix}_$counter";

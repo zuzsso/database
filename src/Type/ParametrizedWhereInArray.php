@@ -6,7 +6,7 @@ namespace Database\Type;
 
 use Database\Exception\ParametrizedPdoArrayException;
 
-class ParametrizedPdoArray
+class ParametrizedWhereInArray
 {
     private array $parameterNames = [];
     private array $parameterAssociation = [];
