@@ -33,8 +33,15 @@ class WhereInParametrizer implements ParametrizeWhereIn
 
         $result = new ParametrizedWhereInArray();
 
+        $prefixModified = $this->checkPdoParameterNames->removeEndDelimiter($prefix);
+
         foreach ($values as $v) {
+
+
             $thisParameterName = "${prefix}_$counter";
+
+            $thisParameterName = $this->checkPdoParameterNames->reinstateEndDelimiter($prefixModified);
+
             $result->addParameter($thisParameterName, $v);
 
             $counter++;
