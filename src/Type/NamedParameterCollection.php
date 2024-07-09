@@ -76,7 +76,7 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
      */
     public function getByStringKey(
         string $key
-    ): string {
+    ): ?string {
         return $this->getByStringKeyUntyped($key);
     }
 
@@ -85,7 +85,7 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
      */
     public function getByNumericOffset(
         int $offset
-    ): string {
+    ): ?string {
         return $this->getByNumericOffsetUntyped($offset);
     }
 
