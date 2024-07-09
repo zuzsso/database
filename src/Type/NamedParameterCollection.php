@@ -92,7 +92,7 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     /**
      * @inheritDoc
      */
-    public function current(): string
+    public function current(): ?string
     {
         return $this->currentUntyped();
     }
