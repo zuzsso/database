@@ -20,17 +20,11 @@ class NamedParameterCollection extends AbstractStringAssociativeCollection
     public function add(
         CheckCustomQueryParameterNames $checkPdoParameterNames,
         string $parameterName,
-        string $parameterValue
+        ?string $parameterValue
     ): void {
         if (!$checkPdoParameterNames->checkStringRepresentsParameterName($parameterName)) {
             throw new IncorrectQueryParametrizationException(
                 "Parameter name '$parameterName' not in expected format, as in '-:paramName:+'"
-            );
-        }
-
-        if (trim($parameterValue) === '') {
-            throw new IncorrectQueryParametrizationException(
-                "Parameter name '$parameterName' is associated with NULL or empty string, so no need to be parametrized"
             );
         }
 
