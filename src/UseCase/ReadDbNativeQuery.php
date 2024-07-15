@@ -17,4 +17,13 @@ interface ReadDbNativeQuery
         Connection $connex,
         NativeSelectSqlQuery $query
     ): array;
+
+    /**
+     * @throws NativeQueryDbReaderUnmanagedException
+     */
+    public function getAllRawRecordsIndexedBy(
+        Connection $connex,
+        NativeSelectSqlQuery $query,
+        string $columnName
+    );
 }
