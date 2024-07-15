@@ -13,9 +13,20 @@ interface ParametrizeWhereIn
     /**
      * @throws IncorrectCustomParameterSyntaxException
      * @throws ParametrizedPdoArrayException
+     * @deprecated
+     * @see \Database\UseCase\ParametrizeWhereIn::simpleParametrize
      */
     public function parametrize(
         CheckCustomQueryParameterNames $checkCustomQueryParameterNames,
+        string $prefix,
+        array $values
+    ): ParametrizedWhereInArray;
+
+    /**
+     * @throws IncorrectCustomParameterSyntaxException
+     * @throws ParametrizedPdoArrayException
+     */
+    public function simpleParametrize(
         string $prefix,
         array $values
     ): ParametrizedWhereInArray;
