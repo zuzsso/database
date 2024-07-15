@@ -43,7 +43,8 @@ class NativeQueryDbReader extends AbstractNativeQueryRunner implements ReadDbNat
     public function getAllRawRecordsIndexedBy(
         Connection $connex,
         NativeSelectSqlQuery $query,
-        string $columnName
+        string $columnName,
+        bool $castToInt
     ): array {
         if (trim($columnName) === '') {
             throw new NativeQueryDbReaderUnmanagedException("Column name is empty");
@@ -73,20 +74,26 @@ class NativeQueryDbReader extends AbstractNativeQueryRunner implements ReadDbNat
 
             if ($indexClean === '') {
                 throw new NativeQueryDbReaderUnmanagedException(
-                    "Not valid index found at row $i (zero-based) and column '$cleaned': empty"
+                    "Not valid index found at row $i (zero-based) and column '$indexClean': empty"
                 );
             }
 
             if ($indexClean !== $index) {
                 throw new NativeQueryDbReaderUnmanagedException(
-                    "Not valid index found at row $i (zero-based) and column '$cleaned': trailing or leading spaces"
+                    "Not valid index found at row $i (zero-based) and column '$indexClean': trailing or leading spaces"
                 );
             }
 
+            $exceptionMsg = "Not valid index found at row $i (zero-based) and column '$indexClean': repeated index";
+
+            if ($castToInt) {
+                $backup = $indexClean;
+                $indexClean = (int)$indexClean;
+                $exceptionMsg = "Not valid index found at row $i (zero-based) and column '$backup', cast to int: $indexClean: repeated index";
+            }
+
             if (array_key_exists($indexClean, $result)) {
-                throw new NativeQueryDbReaderUnmanagedException(
-                    "Not valid index found at row $i (zero-based) and column '$cleaned': repeated index"
-                );
+                throw new NativeQueryDbReaderUnmanagedException($exceptionMsg);
             }
 
             $result[$indexClean] = $raw;

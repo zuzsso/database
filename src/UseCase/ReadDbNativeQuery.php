@@ -24,6 +24,7 @@ interface ReadDbNativeQuery
     public function getAllRawRecordsIndexedBy(
         Connection $connex,
         NativeSelectSqlQuery $query,
-        string $columnName
+        string $columnName,
+        bool $castToInt
     );
 }
