@@ -89,7 +89,7 @@ class NativeQueryDbReader extends AbstractNativeQueryRunner implements ReadDbNat
                 );
             }
 
-            $result[$cleaned] = $raw;
+            $result[$indexClean] = $raw;
         }
 
         return $result;
